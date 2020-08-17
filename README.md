@@ -11,6 +11,8 @@ allinone.py: send email(use configFile)
 smtpCatcher.py:send emails (ignore ERROR)
 
 
+mails/*.json: Possibilities may occure 
+
 
 Example of email configFile:
 
