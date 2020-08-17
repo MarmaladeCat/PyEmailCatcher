@@ -1,0 +1,5 @@
+1. 163邮箱的要求更为严格
+注意点：
+需要有subject、to、from，要以Header()初始化
+群发时，需要用字符串的to，不可list 例：msg["To"] = Header(','.join(receiver))
+SMTPDataError：554, b'DT:SPM 一般是提交的不规范导致的
