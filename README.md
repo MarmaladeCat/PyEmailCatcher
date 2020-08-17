@@ -1,18 +1,27 @@
 # SMTPcatch
 python send emails 
+
+
 use smtp protocal
 
 
-
 allinone.py: send email(use configFile)
+
+
 smtpCatcher.py:send emails (ignore ERROR)
 
 
 
 Example of email configFile:
+
+
 json file 
+
+
 // Comments
 
+
+```
 {
     // basic part 
     "basic": {
@@ -75,3 +84,5 @@ json file
         }
     }
 }
+
+```
