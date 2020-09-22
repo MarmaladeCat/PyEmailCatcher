@@ -45,7 +45,7 @@ class MIMEmail:
                 ctype, encoding = mimetypes.guess_type(path)
                 with open(path, "r") as fp:
                     partTmp = MIMEText(fp.read(), _subtype=ctype.split("/")
-                                    [-1], _charset=encoding)
+                                       [-1], _charset=encoding)
                     part.attach(partTmp)
         if content["imageNum"] != 0:
             for id, path in content["imagePath"].items():
@@ -66,7 +66,7 @@ class MIMEmail:
                     partTmp.add_header("Content-ID", path["desc"])
                     partTmp.add_header("Content-Type", ctype)
                     partTmp.add_header("Content-Disposition",
-                                    "attachment; filename="+path["filename"])
+                                       "attachment; filename="+path["filename"])
 
                     self.msg.attach(partTmp)
 
@@ -85,7 +85,6 @@ class MIMEmail:
             receiver.append(addr)
         self.mailTo = receiver
 
-
     def peekInfo(self):
         print("host", self.host)
         print("port", self.port)
@@ -103,18 +102,16 @@ class MIMEmail:
 
     def sendBySMTP(self):
         smtp = smtplib.SMTP()
-        smtp.connect(self.host,self.port)
-        smtp.login(self.authMail,self.authPasswd)
-        smtp.sendmail(self.mailFrom,self.mailTo,self.msg.as_string())
+        smtp.connect(self.host, self.port)
+        smtp.login(self.authMail, self.authPasswd)
+        smtp.sendmail(self.mailFrom, self.mailTo, self.msg.as_string())
         smtp.quit()
-
 
 
 if __name__ == "__main__":
     with open("mail1.json", "r") as fd:
         MailConfig = json.load(fd)
 
-    
     basic = MailConfig["basic"]
     sendinfo = MailConfig["sendinfo"]
     content = MailConfig["content"]
@@ -132,6 +129,3 @@ if __name__ == "__main__":
     # oneMail.setAttachments(attachment)
     # oneMail.setSendinfo(sendinfo)
     # oneMail.peekInfo()
-
-    
-
