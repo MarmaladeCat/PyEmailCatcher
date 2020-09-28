@@ -147,16 +147,24 @@ class MIMEmail:
         try:
             for i in range(1,ret[0]+2):
                 response, lines, octets = pop3server.top(i , 10)
-                print(response,lines,octets)
+                print("response:",response)
+                for j in lines:
+                    print(j)
         except BaseException as e:
+            print(e)
         else:
+            pass
 
         try:
             for i in range(1,ret[0]+3):
                 response, lines, octets = pop3server.retr(i)
-                print(response,lines,octets)
+                print("response:",response)
+                for j in lines:
+                    print(j)
         except BaseException as e:
+            print(e)
         else:
+            pass
         
 
 
@@ -167,19 +175,10 @@ class MIMEmail:
 if __name__ == "__main__":
     oneMail = MIMEmail()
 
-
-    # with open("mail1.json", "r") as fd:
-    #     MailConfig = json.load(fd)
-
-    # basic = MailConfig["basic"]
-    # sendinfo = MailConfig["sendinfo"]
-    # content = MailConfig["content"]
-    # attachment = MailConfig["attachment"]
-
-    oneMail.loadConfigFromJson("./mail1.json")
+    oneMail.loadConfigFromJson("mails_sina/mail1.json")
     # oneMail.peekInfo()
-    oneMail.send2file("./a.txt")
-    # oneMail.sendBySMTP()
-    oneMail.getByPOP3()
+    # oneMail.send2file("./a.txt")
+    oneMail.sendBySMTP()
+    # oneMail.getByPOP3()
 
 

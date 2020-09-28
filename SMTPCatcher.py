@@ -1,26 +1,31 @@
 
-from allinOne import sendmail
+from makeMail import MIMEmail
 import time
 import random
 
 if __name__ == "__main__":
 
+    theme = "qq"
     i = 1
     print("send qq mails begin")
-    while i < 22:
-        path = './mails/mail'+str(i)+'.json'
+    while i < 24:
+
         x = random.randint(1, 4)
         if x != 1:
-            path = './mails/mail'+str(1)+'.json'
-
+            x=1
         else:
-            path = './mails/mail'+str(i)+'.json'
+            x=i
             i = i+1
+        path = './mails_%s/mail%d.json' % (theme,x)
+
         print("prepare to send %s ---------------->\t " % path, end="")
-        time.sleep(random.randint(3, 8))
+        # time.sleep(random.randint(3, 8))
 
         try:
-            sendmail(path)
+            # print(path)
+            oneMail = MIMEmail()
+            oneMail.loadConfigFromJson(path)
+            oneMail.sendBySMTP()
         except BaseException as e:
             print("Failed ", e)
         else:
@@ -28,25 +33,4 @@ if __name__ == "__main__":
 
     print("send qq mails end\n")
 
-    print("send 163 mails begin")
-    i = 1
-    while i < 22:
-        path = './mails/mail'+str(i)+'.json'
-        x = random.randint(1, 4)
-        if x != 1:
-            path = './mails/mail'+str(1)+'.json'
-
-        else:
-            path = './mails_163/mail'+str(i)+'.json'
-            i = i+1
-        print("prepare to send %s ---------------->\t " % path, end="")
-        time.sleep(random.randint(3, 8))
-
-        try:
-            sendmail(path)
-        except BaseException as e:
-            print("Failed ", e)
-        else:
-            print("Success！")
-
-    print("send 163 mails end\n")
+   
