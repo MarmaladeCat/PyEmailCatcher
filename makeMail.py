@@ -1,4 +1,4 @@
-import smtplib
+import smtplib,time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
@@ -121,24 +121,63 @@ class MIMEmail:
         smtp.login(self.authMail, self.authPasswd)
         smtp.sendmail(self.mailFrom, self.mailTo, self.msg.as_string())
         smtp.quit()
+    
+    def load_pop3(self,jsonfile):
+        with open(jsonfile, "r") as fd:
+            PopConfig = json.load(fd)
+        self.host_pop3 = PopConfig["host_pop3"]
+        self.port_pop3 = PopConfig["port_pop3"]
+        self.authMail = PopConfig["authMail"]
+        self.authPasswd = PopConfig["authPasswd"]
+
+
     def getByPOP3(self):
         pop3server = POP3(self.host_pop3)
         print(pop3server.getwelcome().decode('utf-8'))
         # pop3server.set_debuglevel(1)
-        pop3server.user(self.authMail)
-        pop3server.pass_(self.authPasswd)
-        print(pop3server.capa())
+
+        # try:
+        #     pop3server.user(self.authMail)
+        #     pop3server.pass_(self.authPasswd+"as")
+        # except BaseException as e:
+        #     print(e)
+        #     time.sleep(5)
+        # else:
+        #     pass
+
+        try:
+            pop3server.user(self.authMail)
+            pop3server.pass_(self.authPasswd)
+        except BaseException as e:
+            print(e)
+            time.sleep(5)
+        else:
+            pass
+
+        try:
+            print(pop3server.capa())
+        except BaseException as e:
+            print(e)
+        else:
+            pass
+
+        # print(pop3server.capa())
 
         ret = pop3server.stat()
-        print("stat",ret)
-        for i in range(1,ret[0]+1):
-            print('Messages: %s. Size: %s' % tuple(re.findall(r"\d+",pop3server.list(i).decode("UTF-8"))))
+        print("stat:",ret)
+        try:
+            for i in range(1,ret[0]+2):
+                print('Messages: %s. Size: %s' % tuple(re.findall(r"\d+",pop3server.list(i).decode("UTF-8"))))
+        except BaseException as e:
+            print(e)
+        else:
+            pass
 
         print(pop3server.list())
 
         pop3server.noop()
 
-        # sleep(3)
+        time.sleep(3)
         print(pop3server.uidl())
 
         for i in range(1,ret[0]+1):
